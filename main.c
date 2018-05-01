@@ -39,6 +39,7 @@ int main() {
         OP_BRP,
         OP_STORE,
         OP_INPUT,
+        OP_HALT,
     };
 
     void Add() {
@@ -60,7 +61,7 @@ int main() {
     }
 
     void UpdateState() {
-        //Log("Updating CPU State\n");
+        Log("Updating CPU State\n");
         PC += 1;
     }
 
@@ -107,10 +108,19 @@ int main() {
         scanf("%d", &ACC);
     }
 
+    void Halt() {
+        Log("Called Halt");
+        PC = 32;
+    }
+
     Log("Initalising Memory\n");
     for (int i = 0; i < RAM_SIZE; i++) {
         RAM[i] = OP_PASS;
     }
+
+    RAM[0] = OP_INPUT;
+    RAM[2] = OP_OUT;
+    RAM[3] = OP_HALT;
 
 
     Log("Beginning Execution\n");
@@ -130,6 +140,7 @@ int main() {
             case OP_BRP: BRP(); break;
             case OP_INPUT: Input(); break;
             case OP_STORE: Store(); break;
+            case OP_HALT: Halt(); break;
         }
     }
 
